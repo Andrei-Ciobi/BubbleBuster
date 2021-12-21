@@ -1,5 +1,5 @@
 import pygame
-from game import Table
+from game import Table, Score
 from Utyls.variables import *
 
 # Initialize the pygame
@@ -9,12 +9,20 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) #Width, height
 
 gameTable = Table(screen)
+score = Score(screen)
 
 gameTable.loadLevel("Levels/level1.txt")
 
 running = True
 while running:
     gameTable.draw()
+    score.draw()
+    score.totalScore+=1
+    score.update()
+
+    x, y = pygame.mouse.get_pos()
+    # print(x," ", y)
+
 
     pygame.display.update()
     for event in pygame.event.get():

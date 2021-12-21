@@ -2,7 +2,6 @@ import pygame.sprite
 import pygame.gfxdraw
 from Utyls.variables import *
 
-
 class Bubble(pygame.sprite.Sprite):
     def __init__(self, color, screen, row, column):
         pygame.sprite.Sprite.__init__(self)

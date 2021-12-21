@@ -6,4 +6,6 @@
 - Colision detection [-]
 - Removing the bubbles when have to [-]
 - Score [-]
+    * Render on screen [+]
+    * Formula to calculate the new score after popping 3+ bubbles [-]
 - Check for floating bubbles [-]

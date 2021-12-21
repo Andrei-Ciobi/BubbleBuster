@@ -1,8 +1,10 @@
+import pygame.font
 from Utyls.variables import *
 from Bubble import Bubble
 
 
-class Table:
+# Table component
+class Table(object):
     def __init__(self, screen):
         self.screen = screen
         self.matrix = self.initMatrix()
@@ -48,3 +50,29 @@ class Table:
 
             print("")
             row += 1
+
+
+# Score component
+
+class Score(object):
+    def __init__(self, screen):
+        self.screen = screen
+        self.totalScore = 0
+        self.render = self.updateTotalScoreValue(self.totalScore)
+        self.rect = self.render.get_rect()
+        self.rect.left = 5
+        self.rect.bottom = SCREEN_HEIGHT - 5
+
+    # Draws the score on the screen
+    def draw(self):
+        self.screen.blit(self.render, self.rect)
+
+    # Updates the score, must be changed to recive a list of all the popped bubbles and calculate the score with them
+    def update(self):
+        self.render = self.updateTotalScoreValue(self.totalScore)
+
+    @staticmethod
+    def updateTotalScoreValue(value):
+        myFont = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
+        return myFont.render('Total score ' + str(value), True, COLOR_WHITE, COLOR_BLACK)
+
