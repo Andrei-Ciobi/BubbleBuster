@@ -10,7 +10,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) #Width, height
 
 gameTable = Table(screen)
 
-
+gameTable.loadLevel("Levels/level1.txt")
 
 running = True
 while running:
@@ -20,6 +20,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+
+
 
 
 

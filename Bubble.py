@@ -17,9 +17,9 @@ class Bubble(pygame.sprite.Sprite):
             self.rect.centerx += int(REC_WIDTH / 2) + 5
 
     def draw(self):
-        # pygame.draw.rect(self.screen, WHITE, self.rect)
+        # pygame.draw.rect(self.screen, COLOR_WHITE, self.rect)
         pygame.gfxdraw.filled_circle(self.screen, self.rect.centerx, self.rect.centery, self.radius, self.color)
-        pygame.gfxdraw.aacircle(self.screen, self.rect.centerx, self.rect.centery, self.radius, GRAY)
+        pygame.gfxdraw.aacircle(self.screen, self.rect.centerx, self.rect.centery, self.radius, COLOR_GRAY)
 
     def __str__(self):
         return str(self.rect.centerx) + " " + str(self.rect.centery)
