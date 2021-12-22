@@ -34,13 +34,31 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        if event.type == pygame.MOUSEBUTTONUP:
+        if event.type == pygame.MOUSEBUTTONUP and not s:
             cannon.update()
             b.shootingAngle = cannon.angle
             s = True
 
     if s:
         b.update()
+        succes = gameTable.checkForCollision(b)
+
+        if succes == True:
+            s = False
+            b =  Bubble(COLOR_PURPLE, screen, 0, 0)
+            b.rect.centerx = cannon.positionX
+            b.rect.centery = cannon.positionY
+            b.draw()
+        elif succes == -1:
+            s = False
+            b = Bubble(COLOR_PURPLE, screen, 0, 0)
+            b.rect.centerx = cannon.positionX
+            b.rect.centery = cannon.positionY
+            b.draw()
+
+
+
+
     pygame.display.update()
     clock.tick(60)
 # 10 x 12 matrix
