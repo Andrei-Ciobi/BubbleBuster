@@ -2,7 +2,7 @@
 # To do:
 - Render the hexagonal table [+]
 - Loading predef levels [+]
-- Shooting mechanic [-]
+- Shooting mechanic [+]
 - Colision detection [-]
 - Removing the bubbles when have to [-]
 - Score [-]
