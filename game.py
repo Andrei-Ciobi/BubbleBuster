@@ -17,8 +17,6 @@ class Table(object):
     # Initiate the matrix to a null matrix
     def initMatrix(self):
         return [[None for i in range(COLUMNS if j % 2 == 0 else COLUMNS - 1)] for j in range(ROWS)]
-        # return [[Bubble(screen=self.screen, color=COLOR_BROWN, row=j, column=i) for i in
-        #          range(COLUMNS if j % 2 == 0 else COLUMNS - 1)] for j in range(ROWS)]
 
     # Draw the table components
     def draw(self):
@@ -54,6 +52,35 @@ class Table(object):
 
             row += 1
 
+    # Checks if the shooted bubble hits te top of the window
+    def checkForTopCollision(self, bubble):
+
+        if bubble.rect.top < REC_HEIGHT / 2:
+            row = 0
+            column = round((bubble.rect.centerx - (REC_WIDTH / 2)) / SPACE_WIDTH)
+
+            # check for free space
+            if self.matrix[row][column] == None:
+                bubble.updateValues(row, column)
+                self.matrix[row][column] = bubble
+            elif self.matrix[row][column + 1] == None:
+                bubble.updateValues(row, column + 1)
+                self.matrix[row][column + 1] = bubble
+            elif self.matrix[row][column - 1] == None:
+                bubble.updateValues(row, column - 1)
+                self.matrix[row][column - 1] = bubble
+            else:
+                print("ERROR: Cant put the bubble in the matrix")
+                return -1
+
+            self.bubbleList.append(bubble)
+            self.colorsUsed[COLOR_VECTOR.index(bubble.color)] += 1
+            print("========================\n")
+            return True
+
+        return False
+
+    # Checks if the shooted bubble hits something
     def checkForCollision(self, bubble):
 
         hit = bubble.rect.collidelist(self.bubbleList)
@@ -110,6 +137,7 @@ class Table(object):
 
         return False
 
+    # Returns a list of the connected bubbles starting from the last bubble shooted
     def getDeletedBubbles(self):
 
         bubblesToDelete = []
@@ -155,6 +183,7 @@ class Table(object):
 
         return False, bubblesToDelete
 
+    # Deletes the given list of bubbles
     def deleteBubbles(self, bubblesToDelete):
         score = len(bubblesToDelete) * 10
 
@@ -166,18 +195,8 @@ class Table(object):
                 self.matrix[bubble.row][bubble.column] = None
                 self.bubbleList.remove(bubble)
                 self.colorsUsed[COLOR_VECTOR.index(bubble.color)] -= 1
-                print(self.colorsUsed)
 
         return score
-
-    def printTable(self):
-        row = 0
-        for line in self.matrix:
-            for column in range(len(line)):
-                print(type(self.matrix[row][column]), end="")
-
-            print("")
-            row += 1
 
 
 class BubbleGame(object):
@@ -192,23 +211,31 @@ class BubbleGame(object):
         self.nextShootingBubble = None
         self.running = False
 
+    # Loads the level
     def loadLevel(self, level):
         self.table.loadLevel("Levels/" + str(level) + ".txt")
 
+    # Loads the bubble that will be shooted
     def loadShootingBubble(self):
         self.shootingBubble = self.nextShootingBubble  # self.nextShootingBubble
         self.shootingBubble.rect.centerx = self.shootingPoint.positionX
         self.shootingBubble.rect.centery = self.shootingPoint.positionY
 
+    # Loads the bubble that will be shooted after the curent bubble is shoot
     def loadNextShootingBubble(self):
         nArray = np.array(self.table.colorsUsed)
         indexes = np.where(nArray != 0)[0].tolist()
-        colorUsed = random.choice(indexes)
+
+        if len(indexes) != 0:
+            colorUsed = random.choice(indexes)
+        else:
+            colorUsed = COLOR_VECTOR.index(COLOR_BLACK)
 
         self.nextShootingBubble = Bubble(COLOR_VECTOR[colorUsed], self.screen, 0, 0)
         self.nextShootingBubble.rect.centerx = self.shootingPoint.positionX + 200
         self.nextShootingBubble.rect.centery = self.shootingPoint.positionY
 
+    # Draws the components on the screen
     def draw(self):
         self.screen.fill(COLOR_BLACK)
         self.table.draw()
@@ -217,7 +244,7 @@ class BubbleGame(object):
         self.score.draw()
 
     def run(self):
-        self.loadLevel("level1")
+        self.loadLevel("level2")
         self.loadNextShootingBubble()
         self.loadShootingBubble()
         self.loadNextShootingBubble()
@@ -237,21 +264,38 @@ class BubbleGame(object):
                     self.shootingBubble.shootingAngle = self.shootingPoint.angle
                     shooting = True
 
+            # If we pressed click to shoot
             if shooting == True:
                 self.shootingBubble.update()
+
+                # Check if we hit something
                 succes = self.table.checkForCollision(self.shootingBubble)
 
+                # If we didn't hit something we check for top collision
+                if succes == False:
+                    succes = self.table.checkForTopCollision(self.shootingBubble)
+
+                # If we hit a bubble on the matrix we check if we can delete a sequece
                 if succes != False:
-                    self.loadShootingBubble()
-                    self.loadNextShootingBubble()
+
+                    # print(self.table.colorsUsed)
+
+                    # Get the connected bubbles
                     response, resultList = self.table.getDeletedBubbles()
+
+                    # If 3+ connected we delete them and update the score
                     if response == True:
                         scoreResult = self.table.deleteBubbles(resultList)
                         self.score.update(scoreResult)
 
+                    # Generate new shooting bubble
+                    self.loadShootingBubble()
+                    self.loadNextShootingBubble()
+
+                    # We no longer shoot
                     shooting = False
+                    # print(self.table.colorsUsed)
 
-                    print(self.table.colorsUsed)
-
+            # update the window every 60 FPS
             pygame.display.update()
-            self.clock.tick(60)
+            self.clock.tick(120)
