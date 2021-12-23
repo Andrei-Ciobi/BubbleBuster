@@ -57,42 +57,6 @@ class Bubble(pygame.sprite.Sprite):
         if self.row % 2 != 0:
             self.rect.centerx += int(REC_WIDTH / 2) + 5
 
-    # def checkForColLision(self, bubbleList):
-    #
-    #     hits = self.rect.collidelist(bubbleList)
-    #     row, column, hit = 0, 0, None
-    #
-    #     if hits != -1:
-    #         hit = bubbleList[hits]
-    #         print(hit.row, " ", hit.column)
-    #         print("stanga : ", abs(self.rect.left - hit.rect.right))
-    #         print("dreapta : ", abs(self.rect.right - hit.rect.left))
-    #         print("jos : ", abs(self.rect.top - hit.rect.bottom))
-    #         # Check for the hitted side
-    #         if 0 <= abs(self.rect.top - hit.rect.bottom) <= 15:
-    #             print("jos")
-    #             row = 1
-    #         if 0 <= abs(self.rect.left - hit.rect.right) <= 15:
-    #             print("stanga")
-    #             column = 1 if row == 0 else 0
-    #         if 0 <= abs(self.rect.right - hit.rect.left) <= 15:
-    #             print("dreapta")
-    #             column = -1
-    #
-    #         self.row = hit.row + row
-    #         self.column = hit.column + column
-    #         if self.row % 2 != 0 and self.column == COLUMNS - 1:
-    #             self.column -= 1
-    #
-    #         print(self.row, " ", self.column)
-    #
-    #         self.rect.centerx = int(self.column * SPACE_WIDTH + REC_WIDTH / 2) + 3
-    #         self.rect.centery = int(self.row * (REC_HEIGHT + 2) + REC_HEIGHT / 2)
-    #         if self.row % 2 != 0:
-    #             self.rect.centerx += int(REC_WIDTH / 2) + 5
-    #
-    #     return hit
-
     @staticmethod
     def calculateMovement(angle):
         rad = math.radians(angle)
@@ -122,7 +86,8 @@ class Score(object):
         self.screen.blit(self.render, self.rect)
 
     # Updates the score, must be changed to recive a list of all the popped bubbles and calculate the score with them
-    def update(self):
+    def update(self, score):
+        self.totalScore += score
         self.render = self.updateTotalScoreValue(self.totalScore)
 
     @staticmethod
