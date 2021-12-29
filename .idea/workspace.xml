@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8691031c-0e20-4112-9e46-636bdf1b1cb8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Levels/level2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Levels/level3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/table.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
