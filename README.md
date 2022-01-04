@@ -10,4 +10,4 @@
     * Render on screen [+]
     * Formula to calculate the new score after popping 3+ bubbles [+]
 - Check for floating bubbles [+]
-- End game window popup [-]
+- End game window popup [+]

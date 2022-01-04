@@ -3,7 +3,7 @@ SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 750
 
 # Number of bubbles
-ROWS = 16
+ROWS = 15
 COLUMNS = 12
 
 # Colors
@@ -34,3 +34,18 @@ BUBBLE_SPEED = 6
 # Font variable
 FONT_STYLE = 'Helvetica'
 FONT_SIZE = 20
+
+# Buttons
+BUTTON_WIDTH = 150
+BUTTON_HEIGHT = 50
+BUTTON_FONT_SIZE = 30
+TYPE_QUIT = "quit"
+TYPE_NEXT = "next"
+TYPE_REPLAY = "replay"
+
+
+# Menu
+MENU_WIDTH = 500
+MENU_HEIGHT = 400
+
+MAX_LEVELS = 4

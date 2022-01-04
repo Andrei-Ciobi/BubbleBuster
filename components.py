@@ -90,6 +90,10 @@ class Score(object):
         self.totalScore += score
         self.render = self.updateTotalScoreValue(self.totalScore)
 
+    def initiateScore(self):
+        self.totalScore = 0
+        self.render = self.updateTotalScoreValue(self.totalScore)
+
     @staticmethod
     def updateTotalScoreValue(value):
         myFont = pygame.font.SysFont(FONT_STYLE, FONT_SIZE)
@@ -122,3 +126,39 @@ class ShootingPoint(object):
             self.angle = 5
         elif self.angle < -10 and self.angle > -170:
             self.angle = 90
+
+class Button(pygame.sprite.Sprite):
+    def __init__(self, screen, x, y, color, text, type):
+        pygame.sprite.Sprite.__init__(self)
+        self.rect = pygame.Rect(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT)
+        self.rect.centerx = x
+        self.rect.centery = y
+        self.color = color
+        self.screen = screen
+        self.clicked = False
+        self.render = self.getText(text)
+        self.textRect = self.render.get_rect()
+        self.textRect.centerx = self.rect.centerx
+        self.textRect.centery = self.rect.centery
+        self.type = type
+
+    def draw(self):
+        pygame.draw.rect(self.screen, COLOR_WHITE, self.rect)
+        self.screen.blit(self.render, self.textRect)
+
+    def pressed(self):
+        action = False
+        position = pygame.mouse.get_pos()
+        if self.rect.collidepoint(position):
+            if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
+                self.clicked = True
+                action = True
+            if pygame.mouse.get_pressed()[0] == 0:
+                self.clicked = False
+
+        return action, self.type
+
+
+    def getText(self, text):
+        myFont = pygame.font.SysFont(FONT_STYLE, BUTTON_FONT_SIZE)
+        return myFont.render(text, True, COLOR_BLACK, COLOR_WHITE)

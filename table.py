@@ -8,6 +8,14 @@ class Table(object):
         self.matrix = self.initMatrix()
         self.bubbleList = []
         self.colorsUsed = [0 for i in range(COLUMNS)]
+        self.lose = False
+
+    # Resets the table to and empty table
+    def initializeTableValues(self):
+        self.matrix = self.initMatrix()
+        self.bubbleList = []
+        self.colorsUsed = [0 for i in range(COLUMNS)]
+        self.lose = False
 
     # Initiate the matrix to a null matrix
     def initMatrix(self):
@@ -24,6 +32,9 @@ class Table(object):
 
     # Loads a predef level into the self.matrix atribute
     def loadLevel(self, fileName):
+
+        self.initializeTableValues()
+
         # Load the level
         file = open(fileName, 'r')
         level = [[int(num) for num in line.split()] for line in file]
@@ -107,6 +118,10 @@ class Table(object):
             if row % 2 != 0 and column == COLUMNS - 1:
                 column -= 1
 
+            if row >= ROWS:
+                self.lose = True
+                return False
+
             # check for free space
             if self.matrix[row][column] == None:
                 bubble.updateValues(row, column)
@@ -147,6 +162,8 @@ class Table(object):
                             continue
                         if row != 0 and (bubble.column + column == -1 or bubble.column + column == COLUMNS):
                             continue
+                        if row + bubble.row >= ROWS:
+                            continue
 
                         if self.matrix[bubble.row + row][bubble.column + column] != None:
                             neighbourBubble = self.matrix[bubble.row + row][bubble.column + column]
@@ -160,6 +177,8 @@ class Table(object):
                         if row == 0 and (bubble.column + column == COLUMNS or bubble.column + column == -1):
                             continue
                         if row != 0 and (bubble.column + column == -1 or bubble.column + column == COLUMNS - 1):
+                            continue
+                        if row + bubble.row >= ROWS:
                             continue
 
                         if self.matrix[bubble.row + row][bubble.column + column] != None:
@@ -231,6 +250,7 @@ class Table(object):
 
     # Deletes the bubbles from the matrix that are not in the connected list of bubbles
     def deleteFloatingBubbles(self, connectedBubbles):
+        score = 0
 
         for row, line in enumerate(self.matrix):
             for column in range(len(line)):
@@ -241,3 +261,5 @@ class Table(object):
                         self.matrix[row][column] = None
                         self.bubbleList.remove(bubble)
                         self.colorsUsed[COLOR_VECTOR.index(bubble.color)] -= 1
+                        score += 10
+        return score
