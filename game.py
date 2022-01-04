@@ -11,6 +11,7 @@ import numpy as np
 class BubbleGame(object):
     def __init__(self):
         pygame.init()
+        pygame.display.set_caption('Bubble Buster')
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Width, height
         self.table = Table(self.screen)
         self.score = Score(self.screen)

@@ -1,6 +1,7 @@
 from Utyls.variables import *
 from components import Bubble
 
+
 # Table component
 class Table(object):
     def __init__(self, screen):

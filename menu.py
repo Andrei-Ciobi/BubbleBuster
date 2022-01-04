@@ -2,6 +2,7 @@ import pygame.sprite
 from Utyls.variables import *
 from components import Button
 
+
 class Menu(pygame.sprite.Sprite):
     def __init__(self, color, screen, x, y, text1, text2):
         pygame.sprite.Sprite.__init__(self)
