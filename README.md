@@ -3,7 +3,7 @@
 - Render the hexagonal table [+]
 - Loading predef levels [+]
 - Shooting mechanic [+]
-  * Need to finess the angle formula [-] 
+  * Need to finess the angle formula [+] 
 - Colision detection [+]
 - Removing the bubbles when have to [+]
 - Score [+]

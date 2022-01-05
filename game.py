@@ -37,6 +37,8 @@ class BubbleGame(object):
         self.shootingBubble = self.nextShootingBubble  # self.nextShootingBubble
         self.shootingBubble.rect.centerx = self.shootingPoint.positionX
         self.shootingBubble.rect.centery = self.shootingPoint.positionY
+        self.shootingBubble.x = float(self.shootingPoint.positionX)
+        self.shootingBubble.y = float(self.shootingPoint.positionY)
 
     # Loads the bubble that will be shooted after the curent bubble is shoot
     def loadNextShootingBubble(self):
@@ -190,7 +192,6 @@ class BubbleGame(object):
         self.initiateLevel("level" + str(self.curentLevel))
 
         self.running = True
-
         while self.running:
             if not self.endGame:
                 self.runGame()

@@ -12,6 +12,8 @@ class Bubble(pygame.sprite.Sprite):
         self.rect = pygame.Rect(0, 0, REC_WIDTH, REC_HEIGHT)
         self.rect.centerx = int(column * SPACE_WIDTH + REC_WIDTH / 2) + 3
         self.rect.centery = int(row * (REC_HEIGHT + 2) + REC_HEIGHT / 2)
+        self.x = 0
+        self.y = 0
         self.color = color
         self.radius = int(REC_WIDTH / 2) + 2
         self.screen = screen
@@ -22,7 +24,6 @@ class Bubble(pygame.sprite.Sprite):
             self.rect.centerx += int(REC_WIDTH / 2) + 5
 
     def draw(self):
-        # pygame.draw.rect(self.screen, COLOR_WHITE, self.rect)
         pygame.gfxdraw.filled_circle(self.screen, self.rect.centerx, self.rect.centery, self.radius, self.color)
         pygame.gfxdraw.aacircle(self.screen, self.rect.centerx, self.rect.centery, self.radius, COLOR_GRAY)
 
@@ -41,8 +42,11 @@ class Bubble(pygame.sprite.Sprite):
             x, y = self.calculateMovement(self.shootingAngle)
             x *= -1
 
-        self.rect.x += x
-        self.rect.y += y
+        self.x += x
+        self.y += y
+
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def updateValues(self, row, column):
         self.row = row
